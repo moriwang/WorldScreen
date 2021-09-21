@@ -10,8 +10,10 @@ from threading import Thread
 from config import Config
 
 headers = {
-    'user-agent': '环球银幕HD 2.2 rv:1.0 (iPad; iOS 12.1.3; zh_CN)'.encode('utf-8'),
+    'User-Agent': '环球银幕HD 2.2 rv:1.0 (iPad; iOS 12.1.3; zh_CN)'.encode('utf-8'),
     'Host': Config.host,
+    'Connection': 'keep-alive',
+    'Accept-Encoding': 'gzip'
 }
 
 
@@ -74,7 +76,7 @@ os.remove(os.path.join('temp', 'mix_online.zip'))
 threads = []
 num = 1
 print('开始下载分页。')
-for link in tqdm(download_links):
+for link in download_links:
     pass
     file_name = 'layout_' + str(num) + '.zip'
     t = Thread(target=download_zip, args=['temp', file_name, link])
@@ -82,7 +84,7 @@ for link in tqdm(download_links):
     threads.append(t)
     num += 1
 
-for t in threads:
+for t in tqdm(threads):
     t.join()
 print('下载完成')
 
